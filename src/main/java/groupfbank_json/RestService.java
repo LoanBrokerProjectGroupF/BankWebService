@@ -5,6 +5,7 @@
  */
 package groupfbank_json;
 
+import com.google.gson.Gson;
 import com.kryptag.rabbitmqconnector.MessageClasses.LoanResponse;
 import com.kryptag.rabbitmqconnector.RMQConnection;
 import javax.ws.rs.core.Context;
@@ -14,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import static javax.ws.rs.client.Entity.json;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -39,13 +41,18 @@ public class RestService {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     public void getRequestJson() {
-//        BankMessage bankmessage = response.fromGson(request);
-//        bankmessage to loan response?
+        Gson gson = new Gson();
         RMQConnection rmqCon = new RMQConnection("guest", "guest", "datdb.cphbusiness.dk", 5672, "hello");
-        LoanResponse responsemessage = new LoanResponse((float) 4.092,"ssn");
+//        code commented for not being finished
+//        BankMessage bankMessage = gson.fromJson(json, BankMessage.class);
+//        bankmessage to loan response?
+//        LoanResponse responseMessage = new LoanResponse(bankMessage.getInterestRate(),bankMessage.getSsn()); 
+
         rmqCon.createConnection();
-        //convert response to string
-//        rmqCon.sendMessage(responsemessage);
+        
+        //convert response to string not working yet
+//        responseMessage.toString();
+//        rmqCon.sendMessage(responseMessage);
         
     }
 
