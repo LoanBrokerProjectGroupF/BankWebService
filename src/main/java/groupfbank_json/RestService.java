@@ -6,6 +6,7 @@
 package groupfbank_json;
 
 import com.google.gson.Gson;
+import com.kryptag.rabbitmqconnector.Enums.ExchangeNames;
 import com.kryptag.rabbitmqconnector.MessageClasses.LoanResponse;
 import com.kryptag.rabbitmqconnector.RMQConnection;
 import javax.ws.rs.core.Context;
@@ -43,8 +44,7 @@ public class RestService {
     @Produces(MediaType.APPLICATION_JSON)
     public void getRequestJson(String content) {
         Gson gson = new Gson();
-        RMQConnection rmqCon = new RMQConnection("guest", "guest", "datdb.cphbusiness.dk", 5672, "hello");
-//        code commented for not being finished
+        RMQConnection rmqCon = new RMQConnection("guest", "guest", "datdb.cphbusiness.dk", 5672, ExchangeNames.NORMALIZER.toString());
         BankMessage bankMessage = gson.fromJson(content, BankMessage.class);
 //        bankmessage to loan response?
         LoanResponse responseMessage = new LoanResponse(bankMessage.getInterestRate(),bankMessage.getSsn()); 
