@@ -40,19 +40,21 @@ public class RestService {
     @Path("/entrypoint")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
-    public void getRequestJson() {
+    @Produces(MediaType.APPLICATION_JSON)
+    public void getRequestJson(String content) {
         Gson gson = new Gson();
         RMQConnection rmqCon = new RMQConnection("guest", "guest", "datdb.cphbusiness.dk", 5672, "hello");
 //        code commented for not being finished
-//        BankMessage bankMessage = gson.fromJson(json, BankMessage.class);
+        BankMessage bankMessage = gson.fromJson(content, BankMessage.class);
 //        bankmessage to loan response?
-//        LoanResponse responseMessage = new LoanResponse(bankMessage.getInterestRate(),bankMessage.getSsn()); 
+        LoanResponse responseMessage = new LoanResponse(bankMessage.getInterestRate(),bankMessage.getSsn()); 
 
         rmqCon.createConnection();
         
         //convert response to string not working yet
+        String response = gson.toJson(responseMessage);
 //        responseMessage.toString();
-//        rmqCon.sendMessage(responseMessage);
+        rmqCon.sendMessage(response);
         
     }
 
